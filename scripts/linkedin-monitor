@@ -36,11 +36,51 @@ case "${1:-help}" in
         echo "Let's configure your LinkedIn monitor."
         echo ""
         
-        # Alert channel
-        read -p "Discord channel ID for alerts (right-click channel → Copy ID): " CHANNEL_ID
-        if [ -n "${CHANNEL_ID}" ]; then
+        # Alert channel type
+        echo "Where should alerts be sent?"
+        echo "  1) Discord"
+        echo "  2) Telegram"
+        echo "  3) Slack"
+        echo "  4) WhatsApp"
+        echo "  5) Other"
+        read -p "Choose (1-5) [1]: " CHANNEL_CHOICE
+        CHANNEL_CHOICE="${CHANNEL_CHOICE:-1}"
+        
+        case "${CHANNEL_CHOICE}" in
+            1) CHANNEL_TYPE="discord" ;;
+            2) CHANNEL_TYPE="telegram" ;;
+            3) CHANNEL_TYPE="slack" ;;
+            4) CHANNEL_TYPE="whatsapp" ;;
+            *) 
+                read -p "Enter channel type: " CHANNEL_TYPE
+                ;;
+        esac
+        
+        tmp=$(mktemp)
+        jq --arg ch "${CHANNEL_TYPE}" '.alertChannel = $ch' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+        
+        # Alert target (channel ID, chat ID, etc.)
+        case "${CHANNEL_TYPE}" in
+            discord)
+                read -p "Discord channel ID (right-click channel → Copy ID): " ALERT_TARGET
+                ;;
+            telegram)
+                read -p "Telegram chat ID: " ALERT_TARGET
+                ;;
+            slack)
+                read -p "Slack channel ID or name: " ALERT_TARGET
+                ;;
+            whatsapp)
+                read -p "WhatsApp chat ID or phone number: " ALERT_TARGET
+                ;;
+            *)
+                read -p "Channel/chat ID or target: " ALERT_TARGET
+                ;;
+        esac
+        
+        if [ -n "${ALERT_TARGET}" ]; then
             tmp=$(mktemp)
-            jq --arg id "${CHANNEL_ID}" '.alertChannelId = $id' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+            jq --arg target "${ALERT_TARGET}" '.alertTarget = $target' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
         fi
         
         # Calendar link

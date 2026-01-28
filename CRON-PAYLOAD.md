@@ -28,7 +28,8 @@ STEP 4: Compare against state
 
 STEP 5: If NEW messages found
 - Draft reply for each using USER.md communication style
-- Post to Discord channel (from config alertChannelId):
+- Read alertChannel and alertTarget from ~/.clawdbot/linkedin-monitor/config.json
+- Post to the configured channel (Discord, Telegram, Slack, WhatsApp, etc.):
   Format:
   📬 **{Name}**
   > {message preview}
@@ -44,7 +45,7 @@ STEP 6: Update state
 - Write to ~/.clawdbot/linkedin-monitor/state/messages.json
 
 STEP 7: If NO new messages
-- Stay silent (no Discord message)
+- Stay silent (no message to any channel)
 - Still update lastCheck timestamp
 
 IMPORTANT:

@@ -42,7 +42,7 @@ linkedin-monitor enable
 
 - [Clawdbot](https://github.com/clawdbot/clawdbot) installed and running
 - A browser profile logged into LinkedIn
-- Discord channel for alerts (or another supported channel)
+- A channel for alerts (Discord, Telegram, Slack, WhatsApp, or any Clawdbot channel)
 
 ---
 
@@ -194,7 +194,7 @@ Edit `~/.clawdbot/linkedin-monitor/config.json`:
 {
   "autonomyLevel": 1,
   "alertChannel": "discord",
-  "alertChannelId": "YOUR_CHANNEL_ID",
+  "alertTarget": "YOUR_CHANNEL_ID",
   "calendarLink": "cal.com/yourname",
   "communicationStyleFile": "USER.md",
   "timezone": "America/New_York",
@@ -202,6 +202,16 @@ Edit `~/.clawdbot/linkedin-monitor/config.json`:
   "browserProfile": "clawd"
 }
 ```
+
+### Supported Channels
+
+| Channel | alertChannel | alertTarget |
+|---------|--------------|-------------|
+| Discord | `discord` | Channel ID |
+| Telegram | `telegram` | Chat ID |
+| Slack | `slack` | Channel ID or name |
+| WhatsApp | `whatsapp` | Chat ID or phone |
+| Signal | `signal` | Phone number |
 
 ### Autonomy Levels
 

@@ -1,7 +1,7 @@
 {
   "autonomyLevel": 1,
-  "alertChannel": "discord",
-  "alertChannelId": "",
+  "alertChannel": "",
+  "alertTarget": "",
   "calendarLink": "",
   "communicationStyleFile": "USER.md",
   "timezone": "America/New_York",
@@ -16,12 +16,5 @@
     "escalationKeywords": ["angry", "legal", "refund", "lawsuit", "attorney"],
     "dailyDigest": true
   },
-  "lkCli": {
-    "path": "lk",
-    "timeout": 30
-  },
-  "browserFallback": {
-    "enabled": true,
-    "profile": "clawd"
-  }
+  "browserProfile": "clawd"
 }
