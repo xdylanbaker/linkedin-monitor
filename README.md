@@ -18,6 +18,11 @@ Get notified when someone messages you on LinkedIn. Drafts replies in your voice
 - 🌐 **Browser-based**: Just uses your normal LinkedIn login
 - ⚡ **Watchdog included**: Pings you if something breaks
 
+### Coming Soon
+
+- 🤝 **Connection request monitoring**: Auto-accept or decline based on your criteria
+- 🔔 **Notification alerts**: Mentions, comments, profile views
+
 ---
 
 ## Quick Install
