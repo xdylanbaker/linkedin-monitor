@@ -215,14 +215,24 @@ Edit `~/.clawdbot/linkedin-monitor/config.json`:
 
 ### Autonomy Levels
 
-| Level | Behavior |
-|-------|----------|
-| 0 | Monitor only — alerts, no drafts |
-| 1 | Draft + Approve — drafts replies, waits for your OK |
-| 2 | Auto-reply simple — handles "thanks", scheduling automatically |
-| 3 | Full autonomous — replies as you, books meetings |
+**Level 0: Monitor Only**
+Just watches your inbox and alerts you when something new comes in. No drafts, no replies. Good if you just want notifications.
 
-**Default is Level 1.** Change with:
+**Level 1: Draft + Approve** (default)
+Drafts a reply for each new message, but waits for you to approve before sending anything. You stay in full control.
+
+**Level 2: Auto-reply Simple**
+Handles the easy stuff automatically:
+- "Thanks for connecting" messages
+- Simple scheduling requests (sends your calendar link)
+- Generic greetings
+
+Still alerts you for anything that needs a real response.
+
+**Level 3: Full Autonomous**
+Replies as you, handles scheduling, books meetings on your calendar. Only pings you for edge cases or when it's unsure. This is the "set it and forget it" mode.
+
+Change your level with:
 ```bash
 linkedin-monitor config autonomyLevel 2
 ```
