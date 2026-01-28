@@ -1,0 +1,215 @@
+#!/bin/bash
+# linkedin-monitor - Main CLI entry point
+# Bulletproof LinkedIn inbox monitoring for Clawdbot
+
+set -e
+
+# Resolve symlinks to get actual script location
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+SKILL_DIR="$(dirname "${SCRIPT_DIR}")"
+CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_FILE="${CONFIG_DIR}/config.json"
+
+# Ensure config directory exists
+mkdir -p "${CONFIG_DIR}"
+
+# Commands
+case "${1:-help}" in
+    setup)
+        echo "LinkedIn Monitor Setup"
+        echo "======================"
+        echo ""
+        
+        # Copy default config if not exists
+        if [ ! -f "${CONFIG_FILE}" ]; then
+            cp "${SKILL_DIR}/templates/config.json" "${CONFIG_FILE}"
+            echo "Created config at: ${CONFIG_FILE}"
+        fi
+        
+        # Interactive setup
+        echo "Let's configure your LinkedIn monitor."
+        echo ""
+        
+        # Alert channel
+        read -p "Discord channel ID for alerts (right-click channel → Copy ID): " CHANNEL_ID
+        if [ -n "${CHANNEL_ID}" ]; then
+            tmp=$(mktemp)
+            jq --arg id "${CHANNEL_ID}" '.alertChannelId = $id' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+        fi
+        
+        # Calendar link
+        read -p "Calendar booking link (e.g., cal.com/yourname): " CAL_LINK
+        if [ -n "${CAL_LINK}" ]; then
+            tmp=$(mktemp)
+            jq --arg link "${CAL_LINK}" '.calendarLink = $link' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+        fi
+        
+        # Timezone
+        read -p "Your timezone (e.g., America/New_York) [America/New_York]: " TZ
+        TZ="${TZ:-America/New_York}"
+        tmp=$(mktemp)
+        jq --arg tz "${TZ}" '.timezone = $tz' "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+        
+        echo ""
+        echo "Setup complete!"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Run: linkedin-monitor health"
+        echo "  2. Run: linkedin-monitor check (test)"
+        echo "  3. Run: linkedin-monitor enable (start automation)"
+        ;;
+        
+    health)
+        bash "${SCRIPT_DIR}/health.sh"
+        ;;
+        
+    check)
+        shift
+        bash "${SCRIPT_DIR}/check.sh" "$@"
+        ;;
+        
+    enable)
+        echo "Enabling hourly LinkedIn monitoring..."
+        
+        # Get current crontab
+        CURRENT_CRON=$(crontab -l 2>/dev/null || echo "")
+        
+        # Remove existing linkedin-monitor entries
+        CLEAN_CRON=$(echo "${CURRENT_CRON}" | grep -v "linkedin-monitor" || echo "")
+        
+        # Add new cron job (hourly)
+        NEW_CRON="${CLEAN_CRON}
+# LinkedIn Monitor - hourly check
+0 * * * * ${SCRIPT_DIR}/cron-wrapper.sh >> ${CONFIG_DIR}/logs/cron.log 2>&1
+"
+        
+        echo "${NEW_CRON}" | crontab -
+        
+        echo "✓ Cron job installed (runs every hour)"
+        echo ""
+        echo "View logs: tail -f ${CONFIG_DIR}/logs/cron.log"
+        ;;
+        
+    disable)
+        echo "Disabling LinkedIn monitoring..."
+        
+        # Get current crontab and remove linkedin-monitor entries
+        CURRENT_CRON=$(crontab -l 2>/dev/null || echo "")
+        CLEAN_CRON=$(echo "${CURRENT_CRON}" | grep -v "linkedin-monitor" || echo "")
+        
+        if [ -n "${CLEAN_CRON}" ]; then
+            echo "${CLEAN_CRON}" | crontab -
+        else
+            crontab -r 2>/dev/null || true
+        fi
+        
+        echo "✓ Cron job removed"
+        ;;
+        
+    status)
+        echo "LinkedIn Monitor Status"
+        echo "======================="
+        echo ""
+        
+        # Config
+        if [ -f "${CONFIG_FILE}" ]; then
+            echo "Configuration:"
+            echo "  Autonomy Level: $(jq -r '.autonomyLevel' "${CONFIG_FILE}")"
+            echo "  Alert Channel: $(jq -r '.alertChannelId' "${CONFIG_FILE}")"
+            echo "  Timezone: $(jq -r '.timezone' "${CONFIG_FILE}")"
+            echo ""
+        fi
+        
+        # State
+        bash "${SCRIPT_DIR}/state.sh" status
+        echo ""
+        
+        # Cron
+        if crontab -l 2>/dev/null | grep -q "linkedin-monitor"; then
+            echo "Automation: ✓ Enabled"
+        else
+            echo "Automation: ✗ Disabled"
+        fi
+        ;;
+        
+    config)
+        if [ -z "$2" ]; then
+            # Show config
+            if [ -f "${CONFIG_FILE}" ]; then
+                cat "${CONFIG_FILE}" | jq .
+            else
+                echo "No config found. Run: linkedin-monitor setup"
+            fi
+        else
+            # Set config value
+            KEY="$2"
+            VALUE="$3"
+            if [ -n "${VALUE}" ]; then
+                tmp=$(mktemp)
+                # Handle numeric vs string values
+                if [[ "${VALUE}" =~ ^[0-9]+$ ]]; then
+                    jq --argjson val "${VALUE}" ".${KEY} = \$val" "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+                else
+                    jq --arg val "${VALUE}" ".${KEY} = \$val" "${CONFIG_FILE}" > "$tmp" && mv "$tmp" "${CONFIG_FILE}"
+                fi
+                echo "Set ${KEY} = ${VALUE}"
+            else
+                echo "Usage: linkedin-monitor config <key> <value>"
+            fi
+        fi
+        ;;
+        
+    logs)
+        LOG_FILE="${CONFIG_DIR}/logs/activity.log"
+        if [ -f "${LOG_FILE}" ]; then
+            tail -50 "${LOG_FILE}"
+        else
+            echo "No logs yet"
+        fi
+        ;;
+        
+    reset)
+        read -p "This will clear all state. Are you sure? (y/N) " confirm
+        if [ "${confirm}" = "y" ] || [ "${confirm}" = "Y" ]; then
+            bash "${SCRIPT_DIR}/state.sh" reset
+            echo "State cleared. Next check will start fresh."
+        else
+            echo "Cancelled"
+        fi
+        ;;
+        
+    drafts)
+        bash "${SCRIPT_DIR}/state.sh" get-drafts | jq .
+        ;;
+        
+    help|--help|-h|*)
+        echo "linkedin-monitor - Bulletproof LinkedIn inbox monitoring"
+        echo ""
+        echo "Usage: linkedin-monitor <command>"
+        echo ""
+        echo "Commands:"
+        echo "  setup     Interactive setup wizard"
+        echo "  health    Check dependencies and authentication"
+        echo "  check     Run one monitoring cycle"
+        echo "  enable    Enable hourly automation (cron)"
+        echo "  disable   Disable automation"
+        echo "  status    Show current status"
+        echo "  config    View or edit configuration"
+        echo "  logs      View recent activity logs"
+        echo "  drafts    View pending draft replies"
+        echo "  reset     Clear all state (fresh start)"
+        echo "  help      Show this help"
+        echo ""
+        echo "Examples:"
+        echo "  linkedin-monitor setup"
+        echo "  linkedin-monitor health"
+        echo "  linkedin-monitor check --debug"
+        echo "  linkedin-monitor config autonomyLevel 2"
+        ;;
+esac
