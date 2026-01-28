@@ -255,6 +255,12 @@ If you don't have a `USER.md`, create one with your preferences:
 - Always offer value first
 ```
 
+### Pro tip: Use your LinkedIn data export
+
+Want drafts that really sound like you? Request your LinkedIn data export (Settings > Data privacy > Get a copy of your data). This gives you your full message history and post history.
+
+Feed that to an LLM and ask it to analyze your communication patterns, tone, vocabulary, and style. Then add those insights to your `USER.md`. The more detailed your style guide, the better the drafts.
+
 ---
 
 ## Troubleshooting
