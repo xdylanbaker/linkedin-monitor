@@ -1,6 +1,6 @@
 # LinkedIn Monitor for Clawdbot
 
-**Bulletproof LinkedIn inbox monitoring with zero duplicate notifications.**
+**LinkedIn inbox monitoring with zero duplicate notifications.**
 
 Get notified when someone messages you on LinkedIn. Drafts replies in your voice. Never miss a lead.
 
