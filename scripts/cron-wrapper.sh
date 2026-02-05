@@ -1,11 +1,11 @@
 #!/bin/bash
 # Cron wrapper for linkedin-monitor
-# Runs the check and sends results to Clawdbot if new messages found
+# Runs the check and sends results to OpenClaw if new messages found
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_DIR="${HOME}/.openclaw/linkedin-monitor"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 
 # Load config
@@ -26,8 +26,8 @@ RESULT=$(bash "${SCRIPT_DIR}/check.sh" 2>&1) || {
         
         # Alert about the error
         if [ -n "${CHANNEL_ID}" ]; then
-            # Send error alert to Clawdbot
-            # This uses the Clawdbot message format
+            # Send error alert to OpenClaw
+            # This uses the OpenClaw message format
             cat << EOF
 LINKEDIN_MONITOR_ERROR
 Channel: ${CHANNEL_ID}
@@ -54,7 +54,7 @@ fi
 # We have new messages!
 echo "Found ${NEW_COUNT} new message(s)"
 
-# Format the messages for Clawdbot
+# Format the messages for OpenClaw
 MESSAGES=$(echo "$RESULT" | jq -r '.newMessages[]')
 
 # Build the alert message
@@ -69,7 +69,7 @@ while IFS= read -r msg; do
     ALERT="${ALERT}> ${TEXT}\n\n"
 done < <(echo "$RESULT" | jq -c '.newMessages[]')
 
-# Output for Clawdbot cron to pick up
+# Output for OpenClaw cron to pick up
 # The cron system will see this output and process it
 cat << EOF
 LINKEDIN_MONITOR_ALERT

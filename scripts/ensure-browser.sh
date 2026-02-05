@@ -5,7 +5,7 @@
 echo "LinkedIn Monitor - Browser Setup"
 echo "================================="
 
-# This script outputs instructions for Clawdbot to execute
+# This script outputs instructions for OpenClaw to execute
 # It doesn't directly control the browser (that's done via browser tool)
 
 cat << 'EOF'

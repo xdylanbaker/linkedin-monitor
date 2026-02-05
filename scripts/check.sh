@@ -5,7 +5,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_DIR="${HOME}/.openclaw/linkedin-monitor"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 LOG_DIR="${CONFIG_DIR}/logs"
 LOG_FILE="${LOG_DIR}/activity.log"

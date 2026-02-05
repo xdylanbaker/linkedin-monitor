@@ -3,7 +3,7 @@
 # Verifies all dependencies and authentication status
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_DIR="${HOME}/.openclaw/linkedin-monitor"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 
 # Colors for output

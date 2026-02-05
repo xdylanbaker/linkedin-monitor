@@ -23,7 +23,7 @@ def get_credentials():
     
     if not li_at or not jsessionid:
         # Try loading from config
-        config_path = os.path.expanduser('~/.clawdbot/linkedin-monitor/credentials.json')
+        config_path = os.path.expanduser('~/.openclaw/linkedin-monitor/credentials.json')
         if os.path.exists(config_path):
             with open(config_path) as f:
                 creds = json.load(f)
@@ -146,7 +146,7 @@ def cmd_auth_setup(args):
     jsessionid = input("Enter JSESSIONID cookie value: ").strip()
     
     # Save to config
-    config_dir = os.path.expanduser('~/.clawdbot/linkedin-monitor')
+    config_dir = os.path.expanduser('~/.openclaw/linkedin-monitor')
     os.makedirs(config_dir, exist_ok=True)
     
     config_path = os.path.join(config_dir, 'credentials.json')

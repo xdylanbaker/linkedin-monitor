@@ -2,7 +2,7 @@
 # State management utilities for linkedin-monitor
 # Handles reading/writing state to ensure no duplicate notifications
 
-STATE_DIR="${HOME}/.clawdbot/linkedin-monitor/state"
+STATE_DIR="${HOME}/.openclaw/linkedin-monitor/state"
 MESSAGES_FILE="${STATE_DIR}/messages.json"
 LASTRUN_FILE="${STATE_DIR}/lastrun.txt"
 DRAFTS_FILE="${STATE_DIR}/drafts.json"

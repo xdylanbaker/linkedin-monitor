@@ -1,6 +1,6 @@
 #!/bin/bash
 # linkedin-monitor - Main CLI entry point
-# Bulletproof LinkedIn inbox monitoring for Clawdbot
+# Bulletproof LinkedIn inbox monitoring for OpenClaw
 
 set -e
 
@@ -13,7 +13,7 @@ while [ -L "$SOURCE" ]; do
 done
 SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 SKILL_DIR="$(dirname "${SCRIPT_DIR}")"
-CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_DIR="${HOME}/.openclaw/linkedin-monitor"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 
 # Ensure config directory exists

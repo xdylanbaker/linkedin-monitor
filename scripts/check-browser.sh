@@ -1,11 +1,11 @@
 #!/bin/bash
 # Browser-based LinkedIn inbox check
-# Uses Clawdbot browser tool instead of lk CLI
+# Uses OpenClaw browser tool instead of lk CLI
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="${HOME}/.clawdbot/linkedin-monitor"
+CONFIG_DIR="${HOME}/.openclaw/linkedin-monitor"
 STATE_DIR="${CONFIG_DIR}/state"
 MESSAGES_FILE="${STATE_DIR}/messages.json"
 LOG_DIR="${CONFIG_DIR}/logs"
@@ -29,18 +29,18 @@ log() {
 
 log "INFO" "Starting browser-based LinkedIn check"
 
-# The actual browser check is done by Clawdbot
-# This script is called by the cron, which then invokes Clawdbot
+# The actual browser check is done by OpenClaw
+# This script is called by the cron, which then invokes OpenClaw
 # to do the browser work and parse results
 
-# Output instruction for Clawdbot cron
+# Output instruction for OpenClaw cron
 cat << 'EOF'
 LINKEDIN_BROWSER_CHECK
-Instructions for Clawdbot:
+Instructions for OpenClaw:
 1. Use browser tool (profile: clawd) to navigate to linkedin.com/messaging/
 2. Take snapshot
 3. Parse conversation list for inbound messages (not from me)
-4. Compare against state file: ~/.clawdbot/linkedin-monitor/state/messages.json
+4. Compare against state file: ~/.openclaw/linkedin-monitor/state/messages.json
 5. For each NEW inbound message:
    - Extract: name, message preview, timestamp
    - Add to results
