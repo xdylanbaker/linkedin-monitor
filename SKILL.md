@@ -7,7 +7,7 @@ author: Dylan Baker / lilAgents
 
 # LinkedIn Monitor
 
-Reliable LinkedIn inbox monitoring for Clawdbot.
+Reliable LinkedIn inbox monitoring for OpenClaw.
 
 ## Features
 
@@ -60,7 +60,7 @@ linkedin-monitor reset      # Clear state (start fresh)
 
 ## Configuration
 
-Location: `~/.clawdbot/linkedin-monitor/config.json`
+Location: `~/.openclaw/linkedin-monitor/config.json`
 
 ```json
 {
@@ -115,7 +115,7 @@ State is managed by scripts, not the LLM. This guarantees:
 - Consistent behavior across sessions
 - Visible state for debugging
 
-State files: `~/.clawdbot/linkedin-monitor/state/`
+State files: `~/.openclaw/linkedin-monitor/state/`
 
 ## Sending Approved Messages
 
@@ -155,7 +155,7 @@ linkedin-monitor check  # Fresh start
 ## Files
 
 ```
-~/.clawdbot/linkedin-monitor/
+~/.openclaw/linkedin-monitor/
 ├── config.json          # Your configuration
 ├── state/
 │   ├── messages.json    # Seen message IDs

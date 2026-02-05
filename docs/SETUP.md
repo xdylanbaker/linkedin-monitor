@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-1. **Clawdbot** installed and running
+1. **OpenClaw** installed and running
 2. **jq** installed (`brew install jq` on macOS)
 3. A **Discord server** with a channel for alerts
 
@@ -16,17 +16,17 @@ clawdhub install linkedin-monitor
 
 Or clone manually:
 ```bash
-cd ~/.clawdbot/skills
+cd ~/.openclaw/skills
 git clone https://github.com/dylanbaker/linkedin-monitor
 ```
 
 ### 2. Set Up Browser Profile
 
-The monitor uses Clawdbot's browser tool to check your LinkedIn inbox.
+The monitor uses OpenClaw's browser tool to check your LinkedIn inbox.
 
 ```bash
 # Start the browser
-clawdbot browser start --profile clawd
+openclaw browser start --profile clawd
 ```
 
 A Chrome window will open. **Log into LinkedIn** and leave the browser open.

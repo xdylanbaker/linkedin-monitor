@@ -8,7 +8,7 @@
 
 **Solution:**
 ```bash
-clawdbot browser start --profile clawd
+openclaw browser start --profile clawd
 ```
 
 Then log into LinkedIn if needed.
@@ -105,7 +105,7 @@ This shows detailed logs of what's happening.
 linkedin-monitor logs
 
 # Full log file
-cat ~/.clawdbot/linkedin-monitor/logs/activity.log
+cat ~/.openclaw/linkedin-monitor/logs/activity.log
 ```
 
 ## Reset Everything
@@ -114,14 +114,14 @@ Nuclear option — start fresh:
 ```bash
 linkedin-monitor disable
 linkedin-monitor reset
-rm -rf ~/.clawdbot/linkedin-monitor
+rm -rf ~/.openclaw/linkedin-monitor
 linkedin-monitor setup
 linkedin-monitor enable
 ```
 
 ## Still Stuck?
 
-1. Check Clawdbot is running: `clawdbot status`
-2. Check browser is running: `clawdbot browser status --profile clawd`
+1. Check OpenClaw is running: `openclaw status`
+2. Check browser is running: `openclaw browser status --profile clawd`
 3. Check cron is installed: `crontab -l | grep linkedin`
 4. Open an issue on GitHub with your `linkedin-monitor health` output

@@ -1,11 +1,11 @@
-# LinkedIn Monitor for Clawdbot
+# LinkedIn Monitor for OpenClaw
 
 **LinkedIn inbox monitoring with zero duplicate notifications.**
 
 Get notified when someone messages you on LinkedIn. Drafts replies in your voice. Never miss a lead.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Clawdbot](https://img.shields.io/badge/clawdbot-skill-orange.svg)
+![OpenClaw](https://img.shields.io/badge/openclaw-skill-orange.svg)
 
 ---
 
@@ -45,9 +45,9 @@ linkedin-monitor enable
 
 ## Requirements
 
-- [Clawdbot](https://github.com/clawdbot/clawdbot) installed and running
+- [OpenClaw](https://github.com/openclaw/openclaw) installed and running
 - A browser profile logged into LinkedIn
-- A channel for alerts (Discord, Telegram, Slack, WhatsApp, or any Clawdbot channel)
+- A channel for alerts (Discord, Telegram, Slack, WhatsApp, or any OpenClaw channel)
 
 ---
 
@@ -55,12 +55,12 @@ linkedin-monitor enable
 
 ### Step 1: Create a Browser Profile
 
-LinkedIn Monitor uses Clawdbot's browser tool to check your inbox. You need a browser profile that's logged into LinkedIn.
+LinkedIn Monitor uses OpenClaw's browser tool to check your inbox. You need a browser profile that's logged into LinkedIn.
 
 **Option A: Use the default "clawd" profile**
 ```bash
 # Start the clawd browser
-clawdbot browser start --profile clawd
+openclaw browser start --profile clawd
 
 # This opens a Chrome window. Log into LinkedIn manually.
 # Keep this browser open — it needs to stay running.
@@ -69,7 +69,7 @@ clawdbot browser start --profile clawd
 **Option B: Create a custom profile**
 ```bash
 # Create a profile named "linkedin"
-clawdbot browser start --profile linkedin
+openclaw browser start --profile linkedin
 
 # Log into LinkedIn, then keep it open
 ```
@@ -87,7 +87,7 @@ This will ask you for:
 - **Calendar link** — For booking meetings (e.g., cal.com/yourname)
 - **Timezone** — Your timezone (e.g., America/New_York)
 
-Configuration is saved to `~/.clawdbot/linkedin-monitor/config.json`
+Configuration is saved to `~/.openclaw/linkedin-monitor/config.json`
 
 ### Step 3: Verify Health
 
@@ -147,7 +147,7 @@ Every Hour:
 └─────────────────────────────────────────┘
 ```
 
-**State is tracked in:** `~/.clawdbot/linkedin-monitor/state/messages.json`
+**State is tracked in:** `~/.openclaw/linkedin-monitor/state/messages.json`
 
 Each message gets a unique ID (`Name_Timestamp`). Once reported, it's added to `seenIds` and never reported again.
 
@@ -193,7 +193,7 @@ Reply "send John" to approve.
 
 ## Configuration
 
-Edit `~/.clawdbot/linkedin-monitor/config.json`:
+Edit `~/.openclaw/linkedin-monitor/config.json`:
 
 ```json
 {
@@ -246,7 +246,7 @@ linkedin-monitor config autonomyLevel 2
 
 ## Communication Style
 
-Drafts are generated using your communication style from `USER.md` in your Clawdbot workspace.
+Drafts are generated using your communication style from `USER.md` in your OpenClaw workspace.
 
 If you don't have a `USER.md`, create one with your preferences:
 
@@ -272,7 +272,7 @@ Feed that to an LLM and ask it to analyze your communication patterns, tone, voc
 
 ### "Browser not running"
 ```bash
-clawdbot browser start --profile clawd
+openclaw browser start --profile clawd
 # Then log into LinkedIn
 ```
 
@@ -304,7 +304,7 @@ linkedin-monitor check
 ## Files
 
 ```
-~/.clawdbot/linkedin-monitor/
+~/.openclaw/linkedin-monitor/
 ├── config.json          # Your settings
 ├── state/
 │   └── messages.json    # Seen message IDs
@@ -324,7 +324,7 @@ linkedin-monitor disable
 clawdhub uninstall linkedin-monitor
 
 # (Optional) Remove data
-rm -rf ~/.clawdbot/linkedin-monitor
+rm -rf ~/.openclaw/linkedin-monitor
 ```
 
 ---
@@ -345,4 +345,4 @@ MIT License — use it however you want.
 
 Built by [Dylan Baker](https://github.com/dylanbaker) / [lilAgents](https://lilagents.com)
 
-Part of the [Clawdbot](https://clawd.bot) ecosystem.
+Part of the [OpenClaw](https://clawd.bot) ecosystem.

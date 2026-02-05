@@ -9,7 +9,7 @@
     "url": "https://github.com/dylanbaker/linkedin-monitor"
   },
   "keywords": [
-    "clawdbot",
+    "openclaw",
     "skill",
     "linkedin",
     "automation",
@@ -17,7 +17,7 @@
     "monitoring",
     "social-media"
   ],
-  "clawdbot": {
+  "openclaw": {
     "skillType": "automation",
     "minVersion": "1.0.0",
     "requires": {

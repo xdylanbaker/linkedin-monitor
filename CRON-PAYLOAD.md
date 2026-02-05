@@ -8,7 +8,7 @@ This is the instruction set for the hourly LinkedIn monitoring cron.
 LinkedIn inbox check (browser-based).
 
 STEP 1: Read state file
-- Read ~/.clawdbot/linkedin-monitor/state/messages.json
+- Read ~/.openclaw/linkedin-monitor/state/messages.json
 - Extract seenIds list
 
 STEP 2: Check LinkedIn
@@ -28,7 +28,7 @@ STEP 4: Compare against state
 
 STEP 5: If NEW messages found
 - Draft reply for each using USER.md communication style
-- Read alertChannel and alertTarget from ~/.clawdbot/linkedin-monitor/config.json
+- Read alertChannel and alertTarget from ~/.openclaw/linkedin-monitor/config.json
 - Post to the configured channel (Discord, Telegram, Slack, WhatsApp, etc.):
   Format:
   📬 **{Name}**
@@ -42,7 +42,7 @@ STEP 5: If NEW messages found
 STEP 6: Update state
 - Add new message IDs to seenIds
 - Update lastCheck timestamp
-- Write to ~/.clawdbot/linkedin-monitor/state/messages.json
+- Write to ~/.openclaw/linkedin-monitor/state/messages.json
 
 STEP 7: If NO new messages
 - Stay silent (no message to any channel)
